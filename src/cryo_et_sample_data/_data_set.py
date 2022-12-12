@@ -43,21 +43,25 @@ class DataSet(BaseModel):
 
     Attributes
     ----------
-    name : str
+    name: str
         The name of the DataSet. Spaces are not allowed.
-    base_url : str
+    base_url: str
         The url to access the dataset. See the pooch
         documentation for the valid formats.
-    author : str
+    author: str
         The author(s) of the dataset.
-    description : str
+    description: str
         A description of the dataset. This should be
         a contiuous string without line breaks. The
         DataSet class will automatically apply word
         wrapping.
-    tomogram_metadata : Optional[FileMetadata]
-        The metadata for the tomogram dataset.
+    tomogram_metadata: Optional[FileMetadata]
+        File metadata for the tomogram.
         If None, no tomogram is included.
+        Default value is None.
+    particle_metadata: Optional[FileMetadata]
+        File metadata for particles.
+        If None, no particles are included.
         Default value is None.
     """
 
@@ -190,19 +194,19 @@ class DataSet(BaseModel):
             self.description,
             paragraph_width=60,
         )
-        result += f"\n{indent}description:\n{2*indent}"
-        result += f"\n{2*indent}".join(description_wrapped) + "\n"
+        result += f"\n{indent}description:\n{2 * indent}"
+        result += f"\n{2 * indent}".join(description_wrapped) + "\n"
 
         result += f"\n{indent}data\n"
 
         if self.tomogram_metadata is not None:
             result += f"{indent}  └── tomogram\n"
             result += (
-                f"{2*indent}  ├── file name: "
+                f"{2 * indent}  ├── file name: "
                 f"{self.tomogram_metadata.file_name}\n"
             )
             result += (
-                f"{2*indent}  └── checksum: "
+                f"{2 * indent}  └── checksum: "
                 f"{self.tomogram_metadata.checksum}\n"
             )
 
